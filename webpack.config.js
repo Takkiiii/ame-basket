@@ -1,5 +1,9 @@
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const {
+  VueLoaderPlugin
+} = require('vue-loader');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const exec = require('child_process').exec;
 
 module.exports = {
   // モードの設定 development/production/none の3択
@@ -24,6 +28,10 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.vue?$/,
+        loader: 'vue-loader',
+      },
+      {
         test: /\.(sc|sa|c)ss/,
         use: [{
           loader: MiniCssExtractPlugin.loader
@@ -43,6 +51,22 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
+    {
+      apply: (compiler) => {
+        compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+          exec('sh copy.sh', (err, stdout, stderr) => {
+            if (stdout) process.stdout.write(stdout);
+            if (stderr) process.stderr.write(stderr);
+          });
+        });
+      }
+    }
+  ],
   // import 文で .ts ファイルを解決するため
   resolve: {
     extensions: ['.ts', '.js'],
