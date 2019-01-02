@@ -10,7 +10,7 @@ module.exports = {
   // development:souceMap有効でjsファイル出力、  production: 最適化された状態でjsファイル出力
   mode: 'development',
   // エントリーポイントの設定
-  entry: './src/ts/app.ts',
+  entry: './src/main.ts',
   output: {
     path: __dirname + '/dist', // path.join(__dirname, 'dist')でも可だが絶対パスの指定が必要。というかwindows環境でも使うことを考えればpath使ったほうが無難？
     filename: 'js/bundle.js',
