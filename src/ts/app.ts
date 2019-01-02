@@ -1,6 +1,6 @@
-import Vue from './../../node_modules/vue/dist/vue'
+import Vue from 'vue';
 
 let app:Vue = new Vue({
   el: '#app',
-  render: (h)=>h('p', 'Hello, world.')
+  render: (h)=>h('p', 'Hello, Adobe CEP Sample.')
 });
