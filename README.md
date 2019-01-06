@@ -8,5 +8,4 @@
 ## How to debug
 
 1. ./node_modules/.bin/webpack
-2. defaults write com.adobe.CSXS.9 PlayerDebugMode 1
-3. Lanch PPro
+2. Lanch PPro

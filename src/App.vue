@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    This is App.vue.
     <hello-world />
   </div>
 </template>
