@@ -2,7 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App.vue';
 import store from './store/store.js';
+import ElementUI from 'element-ui';
+import lang from 'element-ui/lib/locale/lang/ja';
+import locale from 'element-ui/lib/locale';
 
+locale.use(lang);
+Vue.use(ElementUI);
 Vue.use(Vuex);
 
 window.vm = new Vue({
@@ -25,10 +30,7 @@ window.vm = new Vue({
   },
   methods: {
     runExtendScript(js) {
-      this.csInterface.evalScript(
-        js, function(result) { 
-          console.log(result.toString());
-        }
+      this.csInterface.evalScript(js, function(result) { console.log(result); }
     );
     }
   }

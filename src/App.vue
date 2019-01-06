@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <hello-world />
+    <application-infomation />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import ApplicationInfomation from './components/ApplicationInfomation.vue';
 export default {
   name: "app",
-  components: { HelloWorld },
+  components: { ApplicationInfomation },
 };
 </script>

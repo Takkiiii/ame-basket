@@ -1,9 +1,11 @@
-const path = require("path");
+const path = require('path');
 const {
   VueLoaderPlugin
 } = require('vue-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const exec = require('child_process').exec;
+
+import 'element-theme-default';
 
 module.exports = {
   mode: 'development',
@@ -15,10 +17,8 @@ module.exports = {
     filename: "[name].js",
   },
   module: {
-    rules: [{
-        test: /\.vue?$/,
-        loader: 'vue-loader',
-      },
+    rules: [
+      { test: /\.vue?$/, loader: 'vue-loader' },
       {
         test: /\.scss$/,
         use: [
@@ -27,6 +27,8 @@ module.exports = {
           'sass-loader',
         ]
       },
+      { test: /\.css$/, loader: 'css-loader' },
+      { test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/, loader: 'url-loader'}
     ],
   },
   plugins: [

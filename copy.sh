@@ -8,5 +8,3 @@ else
 fi
 
 cp -r -f -v ./dist/ ~/Library/Application\ Support/Adobe/CEP/extensions/adobe-cep-sample-with-vue/
-
-defaults write com.adobe.CSXS.9 PlayerDebugMode 1
