@@ -12,12 +12,24 @@ window.vm = new Vue({
   components: {
     App
   },
+  data: {
+    csInterface: null
+  },
   mounted: function () {
-    const csInterface = new CSInterface();
-    const appName = csInterface.hostEnvironment.appName;
-    const appVersion = csInterface.hostEnvironment.appVersion;
+    this.csInterface = new CSInterface();
+    const appName = this.csInterface.hostEnvironment.appName;
+    const appVersion = this.csInterface.hostEnvironment.appVersion;
 
     this.$store.commit('setAppName', appName);
     this.$store.commit('setAppVersion', appVersion);
+  },
+  methods: {
+    runExtendScript(js) {
+      this.csInterface.evalScript(
+        js, function(result) { 
+          console.log(result.toString());
+        }
+    );
+    }
   }
 })
