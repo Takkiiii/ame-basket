@@ -69,8 +69,9 @@ export default {
       this.$store.commit("getClips");
     },
     encodeClips(event) {
+      var params = this.videoClips.map((_, i) => i);
       var cs = new CSInterface();
-      cs.evalScript('encodeAllVideoClips()');
+      cs.evalScript('encodeVideoClips('+ params +')');
     }
   }
 };

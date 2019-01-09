@@ -7,7 +7,8 @@ function getProject() {
     return JSON.stringify(app.project);
 }
 
-function encodeAllVideoClips() {
+function encodeVideoClips(selectedClipsIndex) {
+    var indexes = JSON.parse(selectedClipsIndex);
     app.enableQE();
     var encoder = app.encoder;
     var clips = _getClips();
@@ -17,6 +18,24 @@ function encodeAllVideoClips() {
             continue;
         }
         var fullOutputPath = '/Users/takky/output/hoge';
+        var presetPath = '/Users/takky/Documents/Adobe/Adobe Media Encoder/13.0/Presets/H.264.epr';
+        var workArea = 1;
+        var boolRemoveUponCompletion = 1;
+        encoder.encodeProjectItem(clip.projectItem, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion, clip.start, clip.end);
+    }
+    encoder.startBatch();
+}
+
+function encodeClips(params) {
+    var clips = JSON.parse(params);
+    app.enableQE();
+    var encoder = app.encoder;
+    for (var i = 0; i < clips.length; i++) {        
+        var clip = clips[i];
+        if (clip.mediaType == 'Audio' ) {
+            continue;
+        }
+        var fullOutputPath = '/Users/takky/output/';
         var presetPath = '/Users/takky/Documents/Adobe/Adobe Media Encoder/13.0/Presets/H.264.epr';
         var workArea = 1;
         var boolRemoveUponCompletion = 1;
