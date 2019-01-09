@@ -6,7 +6,8 @@ export default new Vuex.Store({
   state: {
     appName: '',
     appVersion: '',
-    clips: []
+    clips: [],
+    project: null
   },
   mutations: {
     setAppName(state, payload) {
@@ -26,6 +27,13 @@ export default new Vuex.Store({
           clip.seconds = clip.duration.seconds;
         }
         state.clips = json;
+      });
+      cs.evalScript('getProject()', function(result) { 
+        /**
+         * @type {project}
+         */
+        const json = JSON.parse(result);
+        state.project = json;
       });
     }
   }

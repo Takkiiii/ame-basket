@@ -4,7 +4,7 @@
     <div>ビデオクリップ数: {{ clips.filter(c => c.mediaType === 'Video').length }}</div>
     <div>オーディオクリップ数: {{ clips.filter(c => c.mediaType === 'Audio').length }}</div>
     <el-table
-      :data="clips"
+      :data="videoClips"
       style="width: 100%">
       <el-table-column
         prop="trackIndex"
@@ -27,6 +27,7 @@
         width="180">
       </el-table-column>
     </el-table>
+     <el-button type="primary" v-on:click="encodeClips">クリップをエンコード</el-button>
   </div>
 </template>
 
@@ -45,11 +46,33 @@ export default {
       get() {
         return this.$store.state.clips;
       }
+    },
+    /**
+     * @type {Array} Clips
+     */
+    videoClips: {
+      get() {
+        return this.$store.state.clips.filter(c => c.mediaType === 'Video');
+      }
+    },
+    /**
+     * @type {Array} Clips
+     */
+    audioClips: {
+      get() {
+        return this.$store.state.clips.filter(c => c.mediaType === 'Audio');
+      }
     }
   },
   methods: {
     getClips(event) {
       this.$store.commit("getClips");
+    },
+    encodeClips(event) {
+      var cs = new CSInterface();
+      var paramString = JSON.stringify(this.videoClips);
+      console.log(paramString);
+      cs.evalScript('encodeClips('+ paramString + ')');
     }
   }
 };
