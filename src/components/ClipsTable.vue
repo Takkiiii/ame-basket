@@ -70,9 +70,7 @@ export default {
     },
     encodeClips(event) {
       var cs = new CSInterface();
-      var paramString = JSON.stringify(this.videoClips);
-      console.log(paramString);
-      cs.evalScript('encodeClips('+ paramString + ')');
+      cs.evalScript('encodeAllVideoClips()');
     }
   }
 };
