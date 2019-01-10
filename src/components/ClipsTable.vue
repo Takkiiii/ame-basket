@@ -1,52 +1,76 @@
 <template>
   <div id="clips-table">
-    <el-button type="primary" v-on:click="getClips">クリップを取得</el-button>
-    <div>ビデオクリップ数: {{ clips.filter(c => c.mediaType === 'Video').length }}</div>
-    <div>オーディオクリップ数: {{ clips.filter(c => c.mediaType === 'Audio').length }}</div>
+    <div class="get-clips-button">
+       <el-button size="mini" type="primary" @click="getClips">クリップを取得</el-button>
+    </div>
     <el-table
       :data="videoClips"
-      style="width: 100%">
+      ref="multipleTable"
+      style="width: 100%"
+      :header-cell-style="tableHeaderClassName"
+      :row-style="tableRowClassName"
+      @selection-change="handleSelectionChange">
       <el-table-column
-        prop="trackIndex"
-        label="トラックインデックス"
-        width="180">
+        prop="isSelected"
+        type="selection">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="クリップ名"
-        width="180">
+        label="クリップ名">
       </el-table-column>
       <el-table-column
         prop="mediaType"
-        label="メディアタイプ"
-        width="180">
+        label="メディアタイプ">
       </el-table-column>
       <el-table-column
         prop="seconds"
-        label="秒数"
-        width="180">
+        label="秒数">
       </el-table-column>
     </el-table>
-     <el-button type="primary" v-on:click="encodeClips">クリップをエンコード</el-button>
+    <div class="footer">
+      <el-button size="mini" @click="toggleSelection()">クリア</el-button>
+      <div class="encode-group">
+        <el-select v-model="value" placeholder="プリセット" :disabled="multipleSelection.length < 1">
+          <el-option
+            v-for="preset in presets"
+            :key="preset.name"
+            :label="preset.name"
+            :value="preset.fullPath">
+          </el-option>
+        </el-select>
+        <el-button size="mini" type="primary" @click="encodeClips" :disabled="multipleSelection.length < 1 || !value">クリップをエンコード</el-button>
+      </div>
+    </div>
   </div>
 </template>
+
+<style>
+.get-clips-button {
+  margin: 5px 0px;
+}
+.footer {
+  display: flex;
+  margin: 5px 0px 5px 0px;
+}
+.encode-group {
+  display: flex;
+  margin: 0 0 0 auto;
+}
+</style>
+
 
 <script>
 export default {
   name: "clips-table",
   data() {
-    return {};
+    return {
+      cs: new CSInterface(),
+      options: [],
+      multipleSelection: [],
+      value: ''
+    };
   },
-  mounted() {},
   computed: {
-    /**
-     * @type {Array} Clips
-     */
-    clips: {
-      get() {
-        return this.$store.state.clips;
-      }
-    },
     /**
      * @type {Array} Clips
      */
@@ -62,16 +86,47 @@ export default {
       get() {
         return this.$store.state.clips.filter(c => c.mediaType === 'Audio');
       }
+    },
+    presets: {
+      get() {
+        return this.$store.state.presets;
+      }
     }
   },
+  mounted() {
+    this.reloadPresets();
+    console.log(`clips table is mounted.`);
+  },
   methods: {
+    reloadPresets() {
+      this.$store.commit('getPresets');
+    },
+    tableHeaderClassName() {
+      return { backgroundColor: '#999ba0', width: '100%', color: 'black' };
+    },
+    tableRowClassName() {
+      return { backgroundColor: '#b2b6bf', width: '100%',  color: 'black', 'font-weight': 'bold' };
+    },
     getClips(event) {
       this.$store.commit("getClips");
     },
     encodeClips(event) {
-      var params = this.videoClips.map((_, i) => i);
-      var cs = new CSInterface();
-      cs.evalScript('encodeVideoClips('+ params +')');
+      const params = { indexes: this.multipleSelection.map(x => x.index), presetPath: this.value };
+      const str = JSON.stringify(params);
+      this.cs.evalScript('encodeVideoClips('+ str +')');
+    },
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+        console.log(this.multipleSelection);
+      }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     }
   }
 };

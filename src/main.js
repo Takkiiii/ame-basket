@@ -6,7 +6,7 @@ import ElementUI from 'element-ui';
 import lang from 'element-ui/lib/locale/lang/ja';
 import locale from 'element-ui/lib/locale';
 
-import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/index.css';
 
 locale.use(lang);
 Vue.use(ElementUI);
@@ -22,13 +22,8 @@ window.vm = new Vue({
   data: {
     csInterface: null
   },
-  mounted: function () {
+  mounted() {
     this.csInterface = new CSInterface();
-    const appName = this.csInterface.hostEnvironment.appName;
-    const appVersion = this.csInterface.hostEnvironment.appVersion;
-
-    this.$store.commit('setAppName', appName);
-    this.$store.commit('setAppVersion', appVersion);
   },
   methods: {
     runExtendScript(js) {

@@ -26,7 +26,7 @@ module.exports = {
         ]
       },
       { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/, loader: 'url-loader'}
+      { test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/, loader: 'url-loader'},
     ],
   },
   plugins: [
@@ -47,7 +47,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
     },
   }
 }

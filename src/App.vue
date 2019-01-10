@@ -1,16 +1,22 @@
 <template>
   <div id="app">
-    <application-infomation />
-    <clips-table />
+    <div>
+      <app-header />
+    </div>
+    <div>
+      <clips-table />
+    </div>
   </div>
 </template>
 
+<style>
+</style>
+
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-import ApplicationInfomation from './components/ApplicationInfomation.vue';
+import AppHeader from './components/Header.vue';
 import ClipsTable from './components/ClipsTable.vue';
 export default {
   name: "app",
-  components: { ApplicationInfomation, ClipsTable },
+  components: { AppHeader, ClipsTable },
 };
 </script>
