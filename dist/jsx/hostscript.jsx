@@ -7,6 +7,10 @@ function getProject() {
     return JSON.stringify(app.project);
 }
 
+/**
+ * get path separator
+ * @return{string} path separator
+ */
 function getSep() {
     if (Folder.fs === 'Macintosh') {
         return '/';
@@ -15,6 +19,10 @@ function getSep() {
     }
 }
 
+/**
+ * get preset files
+ * @return{string} preset files
+ */
 function getPresets() {
     var files = new Folder("~/Documents/Adobe/Adobe\ Media\ Encoder/13.0/Presets/").getFiles("*.epr");
     return files
@@ -22,32 +30,36 @@ function getPresets() {
 
 /**
  * encode selected video clips
- * @param {string} selectedClipsIndex 
+ * @param {object} params to encode
  */
-function encodeVideoClips(params) {
-    var exportPath = Folder.selectDialog("Select a folder");
-    if (!exportPath) {
-        return;
-    }
-    const json = JSON.parse(params);
-    const indexes = json.indexes;
-    const presetPath = json.presetPath;
-    app.enableQE();
-    var encoder = app.encoder;
-    var clips = _getClips();
-    for (var i = 0; i < indexes.length; i++) {
-        var index = indexes[i];
-        var clip = clips[index];
-        if (clip.mediaType == 'Audio') {
-            continue;
+function encodeVideoClips(json) {
+    try {
+        const exportPath = Folder.selectDialog("Select a folder");
+        if (!exportPath) {
+            return;
         }
-        var fullOutputPath = exportPath.fsName + getSep() + clip.name;
-        // var presetPath = '/Users/takky/Documents/Adobe/Adobe Media Encoder/13.0/Presets/H.264.epr';
-        var workArea = 1;
-        var boolRemoveUponCompletion = 1;
-        encoder.encodeProjectItem(clip.projectItem, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion, clip.start, clip.end);
+        const indexes = json.indexes;
+        const presetPath = new File(json.presetPath).fsName;
+        app.enableQE();
+        const encoder = app.encoder;
+        const clips = _getClips();
+        for (var i = 0; i < indexes.length; i++) {
+            var index = indexes[i];
+            var clip = clips[index];
+            if (clip === null) {
+                alert('clip sis null');
+                continue;
+            }
+            var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name).fsName;
+            const workArea = 1;
+            const boolRemoveUponCompletion = 1;
+            encoder.encodeProjectItem(clip.projectItem, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion, clip.start, clip.end);
+        }
+        encoder.startBatch();
+    } catch(e) {
+        alert(e);
+        throw e;
     }
-    encoder.startBatch();
 }
 
 function _getClips() {
@@ -71,8 +83,10 @@ function _getClips() {
     }
     return result;
 }
+
 /**
  * get clips in active sequence.
+ * @return{clip[]} clips in active sequence
  */
 function getClips() {
     var result = _getClips();

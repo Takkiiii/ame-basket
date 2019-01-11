@@ -113,7 +113,7 @@ export default {
     encodeClips(event) {
       const params = { indexes: this.multipleSelection.map(x => x.index), presetPath: this.value };
       const str = JSON.stringify(params);
-      this.cs.evalScript('encodeVideoClips('+ str +')');
+      this.cs.evalScript('encodeVideoClips('  + str +')');
     },
     toggleSelection(rows) {
       if (rows) {
