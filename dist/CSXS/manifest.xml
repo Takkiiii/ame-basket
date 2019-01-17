@@ -33,11 +33,11 @@
 				</Lifecycle>
 				<UI>
 					<Type>Panel</Type>
-					<Menu>MyFirstPanel</Menu>
+					<Menu>ame-basket</Menu>
 					<Geometry>
 						<Size>
-							<Height>300</Height>
-							<Width>300</Width>
+							<Height>500</Height>
+							<Width>400</Width>
 						</Size>
 					</Geometry>
 				</UI>
