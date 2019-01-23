@@ -1,9 +1,9 @@
-# Adobe CEP Sample with Vue
+# ame-basket
 
 ## Target
 
-* MacOSX 10.14
-* Adobe Premiere Pro 2019
+* MacOSX 10.12 higher
+* Adobe Premiere Pro 2018 higher
 
 ## How to debug
 
