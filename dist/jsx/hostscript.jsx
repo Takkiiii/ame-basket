@@ -24,7 +24,8 @@ function getSep() {
  * @return{string} preset files
  */
 function getPresets() {
-    var files = new Folder("~/Documents/Adobe/Adobe\ Media\ Encoder/13.0/Presets/").getFiles("*.epr");
+    // TODO Specify any location
+    var files = new Folder("~/Documents/Adobe/Adobe\ Media\ Encoder/12.0/Presets/").getFiles("*.epr");
     return files
 }
 
