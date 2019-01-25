@@ -52,7 +52,7 @@ function encodeVideoClips(json) {
                 continue;
             }
             var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name).fsName;
-            const workArea = 1;
+            const workArea = app.encoder.ENCODE_WORKAREA;
             const boolRemoveUponCompletion = 1;
             encoder.encodeProjectItem(clip.projectItem, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion, clip.start, clip.end);
         }
