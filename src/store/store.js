@@ -1,13 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import fs from 'fs-extra';
-// const fs = require('../../node_modules/fs-extra/lib/fs/index');
 import path from 'path';
 import Preset from '../models/presets';
 
 Vue.use(Vuex);
 
-const csInterface = new CSInterface();
+const csInterface = window.__adobe_cep__ ?  new CSInterface() : { hostEnvironment: { appName: '1.0.0', appVersion: 'debug' },evalScript: function(script, callback) {console.log("window.__adobe_cep__ is not found")}};
 
 export default new Vuex.Store({
   state: {

@@ -1,8 +1,4 @@
 import path from 'path';
-const fs = window.cep.fs || null;
-if (!fs) {
-  throw new Error('Cannot find window.cep,fs');
-}
 
 export default class Preset {
   constructor(params) {
@@ -21,4 +17,6 @@ export default class Preset {
   set fullPath(value) { this._fullPath = value; }
 
   get name() { return path.basename(this._fullPath); }
+
+  get fs() { return (window.cep &&  window.cep.fs) ? window.cep.fs : null; }
 }

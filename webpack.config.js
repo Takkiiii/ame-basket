@@ -4,6 +4,7 @@ const {
 } = require('vue-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const exec = require('child_process').exec;
+var webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -12,7 +13,8 @@ module.exports = {
   },
   output: {
     path: `${__dirname}/dist/js`,
-    filename: "[name].js",
+    publicPath: '/js/',
+    filename: "index.js"
   },
   module: {
     rules: [
@@ -31,6 +33,7 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
@@ -49,5 +52,38 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
     },
-  }
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    port: 9000,
+    host: 'localhost',
+    inline: true,
+    compress: true,
+    open: true,
+    openPage: './index.html',
+    watchContentBase: true,
+    hot: true
+  },
+  devtool: "source-map"
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.devtool = '#source-map'
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    })
+  ])
 }
