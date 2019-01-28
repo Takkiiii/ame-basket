@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "build": "webpack",
     "dev": "webpack-dev-server"
   },
   "keywords": [],
