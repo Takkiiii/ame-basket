@@ -44,25 +44,27 @@ function encodeVideoClips(json) {
         app.enableQE();
         const encoder = app.encoder;
         const activeSequence = app.project.activeSequence;
-        const clips = activeSequence.clips;
+        const clips = _getClips();
+        var jobIds = [];
         if (clips) {
             app.encoder.launchEncoder();
             const workArea = app.encoder.ENCODE_WORKAREA;
             const boolRemoveUponCompletion = 1;
-            for (var i = 0; i < clips.numItems; i++) {
+            for (var i = 0; i < clips.length; i++) {
                 var index = indexes[i];
                 var clip = clips[index];
                 if (clip == null) {
-                    alert('clip is null');
                     continue;
                 }
                 activeSequence.setInPoint(clip.start);
                 activeSequence.setOutPoint(clip.end);
                 var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name).fsName;
-                alert(clip.projectItem, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion, clip.start, clip.end);
                 var jobId = app.encoder.encodeSequence(activeSequence, fullOutputPath, presetPath, 1, 1);
+                jobIds.push(jobId);
             }
             encoder.startBatch();
+            activeSequence.setInPoint(0);
+            return jobIds;
         } else {
             alert('No clips not found');
         }
