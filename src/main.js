@@ -24,6 +24,8 @@ window.vm = new Vue({
   },
   mounted() {
     this.csInterface = new CSInterface();
+    // enable qu dom
+    this.runExtendScript('app.enableQE();');
   },
   methods: {
     runExtendScript(js) {

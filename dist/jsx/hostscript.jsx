@@ -3,7 +3,6 @@
  * @return {Project} project
  */
 function getProject() {
-    app.enableQE();
     return JSON.stringify(app.project);
 }
 
@@ -41,29 +40,30 @@ function encodeVideoClips(json) {
         }
         const indexes = json.indexes;
         const presetPath = new File(json.presetPath).fsName;
-        app.enableQE();
+        
         const encoder = app.encoder;
-        const activeSequence = app.project.activeSequence;
+        const activeSequence = qe.project.getActiveSequence();
+        var as = app.project.activeSequence;
         const clips = _getClips();
         var jobIds = [];
         if (clips) {
             app.encoder.launchEncoder();
-            const workArea = app.encoder.ENCODE_WORKAREA;
+            const workArea = 1
             const boolRemoveUponCompletion = 1;
-            for (var i = 0; i < clips.length; i++) {
+            for (var i = 0; i < 1; i++) {
                 var index = indexes[i];
                 var clip = clips[index];
                 if (clip == null) {
                     continue;
                 }
-                activeSequence.setInPoint(clip.start);
-                activeSequence.setOutPoint(clip.end);
+                as.setInPoint(clip.start);
+                as.setOutPoint(clip.end);
                 var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name).fsName;
-                var jobId = app.encoder.encodeSequence(activeSequence, fullOutputPath, presetPath, 1, 1);
+                var jobId = app.encoder.encodeSequence(as, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion);
+                app.project.save();
                 jobIds.push(jobId);
             }
-            encoder.startBatch();
-            activeSequence.setInPoint(0);
+            // encoder.startBatch();
             return jobIds;
         } else {
             alert('No clips not found');
@@ -75,7 +75,6 @@ function encodeVideoClips(json) {
 }
 
 function _getClips() {
-    app.enableQE();
     var sequence = app.project.activeSequence;
     var result = [];
     if (sequence) {
