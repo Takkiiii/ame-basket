@@ -24,6 +24,8 @@ window.vm = new Vue({
   },
   mounted() {
     this.csInterface = window.__adobe_cep__ ?  new CSInterface() : { hostEnvironment: { appName: '1.0.0', appVersion: 'debug' },evalScript: function(script, callback) {console.log("window.__adobe_cep__ is not found")}};
+    // enable qu dom
+    this.runExtendScript('app.enableQE();');
   },
   methods: {
     runExtendScript(js) {

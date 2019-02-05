@@ -3,7 +3,6 @@
  * @return {Project} project
  */
 function getProject() {
-    app.enableQE();
     return JSON.stringify(app.project);
 }
 
@@ -42,9 +41,10 @@ function encodeVideoClips(json) {
         const indexes = json.indexes;
         const shouldExecuteEncoding = json.shouldExecuteEncoding;
         const presetPath = new File(json.presetPath).fsName;
-        app.enableQE();
+        
         const encoder = app.encoder;
-        const activeSequence = app.project.activeSequence;
+        const activeSequence = qe.project.getActiveSequence();
+        var as = app.project.activeSequence;
         const clips = _getClips();
         var jobIds = [];
         const zeroPoint = activeSequence.zeroPoint;
@@ -52,7 +52,7 @@ function encodeVideoClips(json) {
             app.encoder.launchEncoder();
             const workArea = 1;
             const boolRemoveUponCompletion = 1;
-            for (var i = 0; i < clips.length; i++) {
+            for (var i = 0; i < 1; i++) {
                 var index = indexes[i];
                 var clip = clips[index];
                 if (clip == null) {
@@ -78,7 +78,6 @@ function encodeVideoClips(json) {
 }
 
 function _getClips() {
-    app.enableQE();
     var sequence = app.project.activeSequence;
     var result = [];
     if (sequence) {
