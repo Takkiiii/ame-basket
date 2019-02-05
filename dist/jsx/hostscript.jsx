@@ -40,15 +40,17 @@ function encodeVideoClips(json) {
             return;
         }
         const indexes = json.indexes;
+        const shouldExecuteEncoding = json.shouldExecuteEncoding;
         const presetPath = new File(json.presetPath).fsName;
         app.enableQE();
         const encoder = app.encoder;
         const activeSequence = app.project.activeSequence;
         const clips = _getClips();
         var jobIds = [];
+        const zeroPoint = activeSequence.zeroPoint;
         if (clips) {
             app.encoder.launchEncoder();
-            const workArea = app.encoder.ENCODE_WORKAREA;
+            const workArea = 1;
             const boolRemoveUponCompletion = 1;
             for (var i = 0; i < clips.length; i++) {
                 var index = indexes[i];
@@ -56,14 +58,15 @@ function encodeVideoClips(json) {
                 if (clip == null) {
                     continue;
                 }
-                activeSequence.setInPoint(clip.start);
-                activeSequence.setOutPoint(clip.end);
+                activeSequence.setInPoint(zeroPoint + clip.start);
+                activeSequence.setOutPoint(zeroPoint + clip.end);
                 var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name).fsName;
-                var jobId = app.encoder.encodeSequence(activeSequence, fullOutputPath, presetPath, 1, 1);
+                var jobId = app.encoder.encodeSequence(activeSequence, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion);
                 jobIds.push(jobId);
             }
-            encoder.startBatch();
-            activeSequence.setInPoint(0);
+            if (shouldExecuteEncoding) {
+                encoder.startBatch();
+            }
             return jobIds;
         } else {
             alert('No clips not found');

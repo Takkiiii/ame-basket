@@ -38,6 +38,7 @@
             :value="preset.fullPath">
           </el-option>
         </el-select>
+        <el-checkbox v-model="shouldExecuteEncoding">自動でエンコードする</el-checkbox>
         <el-button size="mini" type="primary" @click="encodeClips" :disabled="multipleSelection.length < 1 || !value">クリップをエンコード</el-button>
       </div>
     </div>
@@ -64,10 +65,10 @@ export default {
   name: "clips-table",
   data() {
     return {
-      cs: new CSInterface(),
       options: [],
       multipleSelection: [],
-      value: ''
+      value: '',
+      shouldExecuteEncoding: false
     };
   },
   computed: {
@@ -95,7 +96,6 @@ export default {
   },
   mounted() {
     this.reloadPresets();
-    console.log(`clips table is mounted.`);
   },
   methods: {
     reloadPresets() {
@@ -111,7 +111,7 @@ export default {
       this.$store.commit("getClips");
     },
     encodeClips(event) {
-      const params = { indexes: this.multipleSelection.map(x => x.index), presetPath: this.value };
+      const params = { indexes: this.multipleSelection.map(x => x.index), presetPath: this.value, shouldExecuteEncoding: this.shouldExecuteEncoding };
       const str = JSON.stringify(params);
       this.cs.evalScript('encodeVideoClips('  + str +')');
     },
@@ -122,12 +122,16 @@ export default {
         });
       } else {
         this.$refs.multipleTable.clearSelection();
-        console.log(this.multipleSelection);
       }
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     }
-  }
+  },
+  computed: {
+    cs: function() {
+      return new CSInterface();
+    }
+  },
 };
 </script>
