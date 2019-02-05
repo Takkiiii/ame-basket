@@ -92,6 +92,9 @@ export default {
       get() {
         return this.$store.state.presets;
       }
+    },
+    cs: function() {
+      return new CSInterface();
     }
   },
   mounted() {
@@ -127,11 +130,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     }
-  },
-  computed: {
-    cs: function() {
-      return new CSInterface();
-    }
-  },
+  }
 };
 </script>
