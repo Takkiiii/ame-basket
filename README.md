@@ -1,11 +1,16 @@
 # ame-basket
 
-## Target
+Submit clip by clip in active sequence to Adobe Media Encoder
 
-* MacOSX 10.12 higher
+## Operating Enviroment
+
+* macOSX 10.12 higher
 * Adobe Premiere Pro 2018 higher
+* Adobe Media Encoder 2018 higher
 
 ## How to debug
 
-1. ./node_modules/.bin/webpack
-2. Lanch PPro
+1. `npm run build`
+2. Lanch Adobe Premiere Pro
+3. Open Window => Extension => ame-basket
+4. Open `localhost:8092` in Chrome
