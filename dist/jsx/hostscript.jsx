@@ -59,8 +59,8 @@ function encodeVideoClips(json) {
         if (clip == null) {
           continue;
         }
-        activeSequence.setInPoint(zeroPoint + clip.start.seconds);
-        activeSequence.setOutPoint(zeroPoint + clip.end.seconds);
+        activeSequence.setInPoint(clip.start);
+        activeSequence.setOutPoint(clip.end);
         var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name)
           .fsName;
         var jobId = app.encoder.encodeSequence(
@@ -70,6 +70,7 @@ function encodeVideoClips(json) {
           workArea,
           boolRemoveUponCompletion
         );
+        app.project.save();
         jobIds.push(jobId);
       }
       if (shouldExecuteEncoding) {
