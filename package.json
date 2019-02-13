@@ -1,12 +1,13 @@
 {
   "name": "ame-basket",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev-server": "webpack-dev-server",
+    "package": "sh package.sh"
   },
   "keywords": [],
   "author": "Sho Takizawa",
