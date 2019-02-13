@@ -28,6 +28,11 @@ export default new Vuex.Store({
       });
     },
     getClips(state) {
+      //use under code then debugging with webpack dev server
+      if (process.env.NODE_ENV === 'development' && !window.__adobe_cep__) {
+        state.clips = [{name: 'aaaa.mp4', fullPath: '/path/to/aaaa.mp4', seconds: 10, mediaType: 'Video'}];
+        return;
+      }
       csInterface.evalScript('getClips()', function(result) { 
         const clips = JSON.parse(result);
         for(let clip of clips) {
@@ -37,6 +42,11 @@ export default new Vuex.Store({
       });
     },
     getPresets(state) {
+      //use under code then debugging with webpack dev server
+      if (process.env.NODE_ENV === 'development' && !window.__adobe_cep__) {
+        state.presets = ['/path/to/sample.epr'].map(f => new Preset({ fullPath: f }));
+        return;
+      }
       csInterface.evalScript('getPresets()', function(result) {
         const files = result.split(',');
         state.presets = files.map(f => new Preset({ fullPath: f }));

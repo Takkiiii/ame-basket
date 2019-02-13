@@ -19,6 +19,10 @@
         label="クリップ名">
       </el-table-column>
       <el-table-column
+        prop="fullPath"
+        label="クリップフルパス">
+      </el-table-column>
+      <el-table-column
         prop="mediaType"
         label="メディアタイプ">
       </el-table-column>
@@ -38,7 +42,9 @@
             :value="preset.fullPath">
           </el-option>
         </el-select>
-        <el-checkbox v-model="shouldExecuteEncoding">自動でエンコードする</el-checkbox>
+        <div class="check-box">
+          <el-checkbox v-model="shouldExecuteEncoding">自動でエンコードする</el-checkbox>
+        </div>
         <el-button size="mini" type="primary" @click="encodeClips" :disabled="multipleSelection.length < 1 || !value">クリップをエンコード</el-button>
       </div>
     </div>
@@ -49,6 +55,10 @@
 .get-clips-button {
   margin: 5px 0px;
 }
+.check-box {
+  text-align: center;
+  margin: auto 5px auto 5px;
+}
 .footer {
   display: flex;
   margin: 5px 0px 5px 0px;
@@ -56,6 +66,7 @@
 .encode-group {
   display: flex;
   margin: 0 0 0 auto;
+  align-content: center;
 }
 </style>
 

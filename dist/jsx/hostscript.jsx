@@ -48,41 +48,34 @@ function encodeVideoClips(json) {
     const activeSequence = app.project.activeSequence;
     const zeroPoint = app.project.activeSequence.zeroPoint;
     const clips = _getClips();
-    var jobIds = [];
     if (clips) {
       app.encoder.launchEncoder();
       const workArea = 1;
       const boolRemoveUponCompletion = 1;
+      // NOTE:シーケンス上のクリップとIn/Outと本体のIn/Outの時間が0.03秒ほどずれているため以下のoffsetをクリップのIn/Outに足している
+      const offset = 0.03336666666666677;
       for (var i = 0; i < clips.length; i++) {
         var index = indexes[i];
         var clip = clips[index];
         if (clip == null) {
           continue;
         }
-        activeSequence.setInPoint(clip.start);
-        activeSequence.setOutPoint(clip.end);
+        activeSequence.setInPoint(clip.start.seconds == 0 ? clip.start.seconds : clip.start.seconds + offset);
+        activeSequence.setOutPoint(clip.end.seconds + offset);
         var fullOutputPath = new File(exportPath.fsName + getSep() + clip.name)
           .fsName;
-        var jobId = app.encoder.encodeSequence(
-          activeSequence,
-          fullOutputPath,
-          presetPath,
-          workArea,
-          boolRemoveUponCompletion
-        );
-        app.project.save();
-        jobIds.push(jobId);
+        encoder.encodeSequence(activeSequence, fullOutputPath, presetPath, workArea, boolRemoveUponCompletion);
       }
       if (shouldExecuteEncoding) {
         encoder.startBatch();
       }
-      return jobIds;
+      return;
     } else {
       alert("No clips not found");
     }
   } catch (e) {
     alert(e);
-    throw e;
+    throw e; 
   }
 }
 
@@ -99,6 +92,7 @@ function _getClips() {
         for (var ci = 0; ci < clips.numTracks; ci++) {
           var clip = clips[ci];
           clip.index = ci;
+          clip.fullPath = clip.projectItem.getMediaPath();
           result.push(clip);
         }
       }
@@ -114,55 +108,4 @@ function _getClips() {
 function getClips() {
   var result = _getClips();
   return JSON.stringify(result);
-}
-
-function encode(json) {
-  // app.encoder.bind('onEncoderJobComplete',	$._PPP_.onEncoderJobComplete);
-  // app.encoder.bind('onEncoderJobError', 		$._PPP_.onEncoderJobError);
-  // app.encoder.bind('onEncoderJobProgress', 	$._PPP_.onEncoderJobProgress);
-  // app.encoder.bind('onEncoderJobQueued', 		$._PPP_.onEncoderJobQueued);
-  // app.encoder.bind('onEncoderJobCanceled',	$._PPP_.onEncoderJobCanceled);
-  var outputPresetPath = new File(json.presetPath).fsName;
-  var projRoot = app.project.rootItem.children;
-
-  if (projRoot.numItems) {
-    var children = app.project.rootItem.children;
-    alert(children.length);
-    if (children.length > 0) {
-      app.encoder.launchEncoder(); // This can take a while; let's get the ball rolling.
-      for (var i = 0; i < children.length; i++) {
-        var firstProjectItem = children[i];
-        if (firstProjectItem) {
-          var fileOutputPath = Folder.selectDialog(
-            "Choose the output directory"
-          );
-          if (fileOutputPath) {
-            var outputName = firstProjectItem.name.search("[.]");
-            if (outputName == -1) {
-              outputName = firstProjectItem.name.length;
-            }
-            outFileName = firstProjectItem.name.substr(0, outputName);
-            outFileName = outFileName.replace("/", "-");
-            var completeOutputPath =
-              fileOutputPath.fsName + getSep() + outFileName;
-            var removeFromQueue = true;
-            var rangeToEncode = app.encoder.ENCODE_IN_TO_OUT;
-            app.encoder.encodeProjectItem(
-              firstProjectItem,
-              completeOutputPath,
-              outputPresetPath,
-              rangeToEncode,
-              removeFromQueue
-            );
-            app.encoder.startBatch();
-          }
-        }
-      }
-    } else {
-      alert("No project item found.");
-      // $._PPP_.updateEventPanel("No project items found.");
-    }
-  } else {
-    alert("Project is empty.");
-  }
 }

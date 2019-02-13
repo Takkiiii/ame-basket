@@ -24,6 +24,7 @@ export default {
   mounted() {
     this.$store.commit('getAppName');
     this.$store.commit('getAppVersion');
+    this.$store.commit('getProject');
   }
 };
 </script>
