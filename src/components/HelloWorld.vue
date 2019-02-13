@@ -8,6 +8,8 @@
 <script>
 export default {
   name: 'hello-world',
+  created() {
+  },
   computed: {
     appName: {
       get() { return this.$store.state.appName; }
