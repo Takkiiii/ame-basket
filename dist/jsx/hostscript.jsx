@@ -23,11 +23,12 @@ function getSep() {
  * @return{string} preset files
  */
 function getPresets() {
-  // TODO Specify any location
-  var files = new Folder(
-    "~/Documents/Adobe/Adobe Media Encoder/13.0/Presets/"
-  ).getFiles("*.epr");
-  return files;
+  if (Folder.fs === "Macintosh") {
+    return new Folder("~/Documents/Adobe/Adobe Media Encoder/12.0/Presets/").getFiles("*.epr")
+    .concat(new Folder("~/Documents/Adobe/Adobe Media Encoder/13.0/Presets/").getFiles("*.epr"));
+  }
+  return new Folder("C:\Users\\Documents\Adobe\Adobe Media Encoder\12.0\Presets").getFiles("*.epr")
+    .concat(new Folder("C:\Users\\Documents\Adobe\Adobe Media Encoder\13.0\Presets").getFiles("*.epr"));
 }
 
 /**
