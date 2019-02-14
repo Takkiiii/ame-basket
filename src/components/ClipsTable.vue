@@ -90,6 +90,8 @@ export default {
       return new CSInterface();
     }
   },
+  created() {
+  },
   mounted() {
     this.reloadPresets();
   },

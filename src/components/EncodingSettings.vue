@@ -50,6 +50,10 @@
         this.$emit('change-should-execute-encoding', newVal);
       }
     },
+    created() {
+    },
+    mounted() {
+    },
     methods: {
       submitJobs(event) {
         this.$emit("submit-jobs");

@@ -4,11 +4,11 @@ import {
   createLocalVue
 } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ApplicationInfomation from 'components/ApplicationInfomation';
-
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale';
 import lang from 'element-ui/lib/locale/lang/ja';
+
+import ApplicationInfomation from 'components/ApplicationInfomation';
 
 locale.use(lang);
 
