@@ -30,7 +30,7 @@ const factory = () => {
     state,
     mutations
   });
-  return shallowMount(ApplicationInfomation, {
+  return mount(ApplicationInfomation, {
     localVue: localVue,
     store: store
   });
@@ -43,5 +43,10 @@ describe('ApplicationInfomation ', () => {
   });
   it('has a created hook', () => {
     expect(typeof ApplicationInfomation.created).toBe('function')
+  });
+  it('has a info value', () => {
+    const wrapper = factory();
+    const expected = [{"key": "name", "value": "Adobe Premiere Pro CC"}, {"key": "version", "value": "12.0"}];
+    expect(wrapper.vm.info).toEqual(expected);
   });
 })

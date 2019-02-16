@@ -18,7 +18,7 @@ localVue.use(ElementUI);
 
 const factory = () => {
   const state = {
-    clips: [],
+    clips: [{isSelected: false, name: 'hoge.mp4', fullPath: '/path/to/hoge.mp4', mediaType: 'Video', seconds: 5.0}],
     presets: []
   };
   const mutations = {
@@ -38,9 +38,14 @@ const factory = () => {
 describe('ClipTable', () => {
   it('is a Vue instance', () => {
     const wrapper = factory();
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.isVueInstance()).toBeTruthy();
   });
   it('has a created hook', () => {
-    expect(typeof ClipsTable.created).toBe('function')
+    expect(typeof ClipsTable.created).toBe('function');
+  });
+  it('has video clips data', () => {
+    const wrapper = factory();
+    const expected = [{isSelected: false, name: 'hoge.mp4', fullPath: '/path/to/hoge.mp4', mediaType: 'Video', seconds: 5.0}];
+    expect(wrapper.vm.videoClips).toEqual(expected);
   });
 })
