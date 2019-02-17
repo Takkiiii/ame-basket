@@ -22,6 +22,10 @@ import ApplicationInfomation from './ApplicationInfomation.vue';
 
 export default {
   name: 'app-header',
-  components: { ApplicationInfomation }
+  components: { ApplicationInfomation },
+  created() {
+  },
+  mounted() {
+  }
 }
 </script>

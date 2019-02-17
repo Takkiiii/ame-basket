@@ -9,7 +9,6 @@
     </el-popover>
   </div>
 </template>
-x
 <script>
 export default {
   name: "application-infomation",
@@ -25,6 +24,8 @@ export default {
     this.$store.commit('getAppName');
     this.$store.commit('getAppVersion');
     this.$store.commit('getProject');
+  },
+  created() {
   }
 };
 </script>

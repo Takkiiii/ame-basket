@@ -23,11 +23,17 @@ function getSep() {
  * @return{string} preset files
  */
 function getPresets() {
-  // TODO Specify any location
-  var files = new Folder(
-    "~/Documents/Adobe/Adobe Media Encoder/13.0/Presets/"
-  ).getFiles("*.epr");
-  return files;
+  const filter = '*.epr';
+  var presets12DirOnMac = '~/Documents/Adobe/Adobe Media Encoder/12.0/Presets';
+  var presets13DirOnMac = '~/Documents/Adobe/Adobe Media Encoder/13.0/Presets';
+  var presets12DirOnWin = 'C:\Users\\Documents\Adobe\Adobe Media Encoder\12.0\Presets';
+  var presets13DirOnWin = 'C:\Users\\Documents\Adobe\Adobe Media Encoder\13.0\Presets';
+  if (Folder.fs === "Macintosh") {
+    return new Folder(presets12DirOnMac).getFiles(filter)
+      .concat(new Folder(presets13DirOnMac).getFiles(filter));
+  }
+  return new Folder(presets12DirOnWin).getFiles(filter)
+    .concat(new Folder(presets13DirOnWin).getFiles(filter));
 }
 
 /**
@@ -75,7 +81,7 @@ function encodeVideoClips(json) {
     }
   } catch (e) {
     alert(e);
-    throw e; 
+    throw e;
   }
 }
 
