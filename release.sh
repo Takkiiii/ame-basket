@@ -23,7 +23,7 @@ zip -r $NAME-v$VERSION.zip packages
 LOG=$(cat CHANGELOG.md)
 
 # run gh-release to create the tag and push release to github
-./node_modules/.bin/gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip -b $LOG -y
+./node_modules/.bin/gh-release -n v$VERSION -c master --assets $NAME-v$VERSION.zip -b $LOG -y
 
 # checkout master and delete release branch locally and on GitHub
 git checkout master
