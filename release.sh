@@ -24,7 +24,7 @@ git push upstream gh-release
 zip -r $NAME-v$VERSION.zip dist
 
 # run gh-release to create the tag and push release to github
-gh-release --assets $NAME-v$VERSION.zip
+gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip
 
 # checkout master and delete release branch locally and on GitHub
 git checkout master
