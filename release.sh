@@ -8,7 +8,7 @@ git push --follow-tags origin master
 git checkout -b gh-release
 
 # force add files
-git add package -f
+git add packages -f
 
 # commit changes with a versioned commit message
 git commit -m "build $VERSION"
@@ -17,7 +17,7 @@ git commit -m "build $VERSION"
 git push origin gh-release
 
 # create a ZIP archive of the dist files
-zip -r $NAME-v$VERSION.zip package
+zip -r $NAME-v$VERSION.zip packages
 
 # run gh-release to create the tag and push release to github
 ./node_modules/.bin/gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip
