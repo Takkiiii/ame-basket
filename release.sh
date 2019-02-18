@@ -9,7 +9,7 @@ npm test || exit 1
 git checkout -b gh-release
 
 # force add files
-git add dist -f
+git add package -f
 
 # commit changes with a versioned commit message
 git commit -m "build $VERSION"
@@ -18,7 +18,7 @@ git commit -m "build $VERSION"
 git push origin gh-release
 
 # create a ZIP archive of the dist files
-zip -r $NAME-v$VERSION.zip dist
+zip -r $NAME-v$VERSION.zip package
 
 # run gh-release to create the tag and push release to github
 ./node_modules/.bin/gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build-development": "NODE_ENV=development && webpack",
-    "build-production": "NODE_ENV=production && webpack && standard-version",
+    "build-production": "NODE_ENV=production && npm run package && standard-version",
     "dev-server": "webpack-dev-server",
     "package": "sh package.sh",
     "deploy": "npm run build-production && sh ./release.sh"
