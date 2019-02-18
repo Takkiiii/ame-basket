@@ -20,7 +20,7 @@ git push origin gh-release
 zip -r $NAME-v$VERSION.zip packages
 
 # run gh-release to create the tag and push release to github
-./node_modules/.bin/gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip
+./node_modules/.bin/gh-release -n v$VERSION -c master -d --assets $NAME-v$VERSION.zip -d
 
 # checkout master and delete release branch locally and on GitHub
 git checkout master
