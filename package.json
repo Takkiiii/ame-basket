@@ -1,12 +1,12 @@
 {
   "name": "ame-basket",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build-development": "NODE_ENV=development && webpack",
-    "build-production": "NODE_ENV=production && webpack",
+    "build-production": "NODE_ENV=production && webpack && standard-version",
     "dev-server": "webpack-dev-server",
     "package": "sh package.sh",
     "deploy": "npm run build-production && sh ./release.sh"
@@ -31,6 +31,7 @@
     "node-sass": "^4.11.0",
     "osenv": "^0.1.5",
     "sass-loader": "^7.1.0",
+    "standard-version": "^5.0.0",
     "style-loader": "^0.23.1",
     "vue-jest": "^3.0.2",
     "vue-loader": "^15.6.2",
