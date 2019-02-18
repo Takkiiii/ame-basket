@@ -15,7 +15,7 @@ git add dist -f
 git commit -m "build $VERSION"
 
 # push commit so it exists on GitHub when we run gh-release
-git push upstream gh-release
+git push origin gh-release
 
 # create a ZIP archive of the dist files
 zip -r $NAME-v$VERSION.zip dist
@@ -26,4 +26,4 @@ zip -r $NAME-v$VERSION.zip dist
 # checkout master and delete release branch locally and on GitHub
 git checkout master
 git branch -D gh-release
-git push upstream :gh-release
+git push origin :gh-release
