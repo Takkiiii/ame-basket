@@ -2,8 +2,7 @@
 VERSION=$(node --eval "console.log(require('./package.json').version);")
 NAME=$(node --eval "console.log(require('./package.json').name);")
 
-# build and test
-npm test || exit 1
+git push --follow-tags origin master
 
 # checkout temp branch for release
 git checkout -b gh-release
