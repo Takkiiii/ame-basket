@@ -17,4 +17,4 @@ Submit clip by clip in active sequence to Adobe Media Encoder
 
 ## How to debug without Premiere
 
-1. `npm run dev`
+1. `npm run dev-server`
