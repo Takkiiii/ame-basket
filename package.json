@@ -6,10 +6,9 @@
   "scripts": {
     "test": "jest",
     "build-development": "NODE_ENV=development && webpack",
-    "build-production": "NODE_ENV=production && npm run package && standard-version -a",
+    "build-production": "NODE_ENV=production && npm run package",
     "dev-server": "webpack-dev-server",
-    "package": "sh package.sh",
-    "deploy": "npm run build-production && sh ./release.sh"
+    "package": "sh package.sh"
   },
   "keywords": [],
   "author": "Sho Takizawa",

@@ -58,8 +58,9 @@ function encodeVideoClips(json) {
       app.encoder.launchEncoder();
       const workArea = 1;
       const boolRemoveUponCompletion = 1;
-      // NOTE:シーケンス上のクリップとIn/Outと本体のIn/Outの時間が0.03秒ほどずれているため以下のoffsetをクリップのIn/Outに足している
-      const offset = 0.03336666666666677;
+      // NOTE:シーケンス上のクリップとIn/Outと本体のIn/Outの時間が1フレームほどずれているため以下のoffsetをクリップのIn/Outに足している
+      const framerate = qe.project.getActiveSequence().videoFrameRate;
+      const offset = 1 / framerate;
       for (var i = 0; i < clips.length; i++) {
         var index = indexes[i];
         var clip = clips[index];
