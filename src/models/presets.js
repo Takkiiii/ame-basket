@@ -7,8 +7,7 @@ export default class Preset {
 
   static getPresets(basePath) {
     const r =  new RegExp(/.*\.epr$/);
-    const files = fs.readdir(basePath).data;
-    console.log(files);
+    const files = fs == null ? [] : fs.readdir(basePath).data;
     return files.filter(f => r.test(f) === true).map(f => new Preset({ fullPath: path.join(basePath, f) }));
   }
 
