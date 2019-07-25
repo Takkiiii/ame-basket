@@ -11,10 +11,18 @@ export default class Preset {
     return files.filter(f => r.test(f) === true).map(f => new Preset({ fullPath: path.join(basePath, f) }));
   }
 
+  /**
+   * get preset full path
+   * @returns {string}
+   */
   get fullPath() { return this._fullPath; }
 
   set fullPath(value) { this._fullPath = value; }
 
+  /**
+   * get preset name
+   * @returns {string}
+   */
   get name() { return path.basename(this._fullPath); }
 
   get fs() { return (window.cep &&  window.cep.fs) ? window.cep.fs : null; }

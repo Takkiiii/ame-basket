@@ -21,6 +21,10 @@ export default new Vuex.Store({
     appVersion: '',
     clips: [],
     project: null,
+    /**
+     * get preset full path
+     * @type {Preset[]}
+     */
     presets: [],
   },
   mutations: {
